@@ -13,28 +13,10 @@ const AboutPage = () => {
           <Hyperspeed effectOptions={hyperspeedPresets.cyberpunk} />
         </div>
         <div className="hero-video-overlay">
-          <div className="ds-badge" style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            padding: '6px 16px', 
-            borderRadius: '100px', 
-            fontSize: '12px', 
-            fontWeight: '600', 
-            color: 'var(--ds-accent-hi)', 
-            background: 'rgba(16, 185, 129, 0.1)', 
-            border: '1px solid rgba(16, 185, 129, 0.3)',
-            marginBottom: '24px'
-          }}>
-            Our Mission & Philosophy
-          </div>
           <h1>
             Empowering Teachers.<br />
             <span style={{ color: 'var(--ds-accent-hi)' }}>Reclaiming Weekends</span>.
           </h1>
-          <p style={{ color: '#ececf0', fontSize: '18px', maxWidth: '700px', margin: '0 auto' }}>
-            We believe teaching is an art form, but test creation has become administrative overhead.
-            Assessitonium combines pedagogical frameworks with generative intelligence to help educators craft high-impact worksheets in minutes instead of hours.
-          </p>
         </div>
       </div>
 
