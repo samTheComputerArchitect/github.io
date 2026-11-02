@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function () {
+        var p = sessionStorage.getItem('gh-pages-redirect');
+        if (p) {
+          sessionStorage.removeItem('gh-pages-redirect');
+          history.replaceState(null, '', p);
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/png" href="/github.io/favicon.png" />
+    <link rel="apple-touch-icon" href="/github.io/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assessitonium</title>
+    <script type="module" crossorigin src="/github.io/assets/index-C9vX5DaK.js"></script>
+    <link rel="stylesheet" crossorigin href="/github.io/assets/index-BfASxJzo.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
