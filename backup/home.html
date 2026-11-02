@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home — NiyovAI</title>
+</head>
+<body>
+    <template id="page-template">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="videos/home.webm?v=1" type="video/webm">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-video-overlay">
+                <h1>Home</h1>
+            </div>
+        </div>
+    </template>
+
+    <style>
+        /* Force body and document to ignore default spacing */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden !important;
+        }
+
+        /* Force base container wrapper to remove all inner padding and stretch to screen edges */
+        #app-view {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            width: 100vw !important;
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+        }
+
+        .hero-video-container {
+            position: relative;
+            width: 100vw;
+            height: calc(100dvh - var(--topbar-h));
+            margin-top: var(--topbar-h);
+            overflow: hidden;
+            background: var(--bg-canvas);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100vw;
+            min-height: 100%;
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.65);
+        }
+
+        .hero-video-overlay {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-video-overlay h1 {
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+
+    <script>
+        fetch('base.html')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                const template = document.getElementById('page-template');
+                const content = template.content.cloneNode(true);
+                
+                const styleTag = document.querySelector('style');
+                const styleClone = styleTag.cloneNode(true);
+                
+                const appView = doc.getElementById('app-view');
+                appView.innerHTML = '';
+                appView.appendChild(content);
+                
+                doc.head.appendChild(styleClone);
+                
+                document.open();
+                document.write(doc.documentElement.outerHTML);
+                document.close();
+            });
+    </script>
+</body>
+</html>

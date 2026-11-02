@@ -1,0 +1,178 @@
+/* Animated UI primitives — subtle, on-theme motion. All keyframe effects degrade under reduced motion. */
+
+/* Gradient text */
+.grad {
+    background: linear-gradient(92deg, #34D399 0%, #10B981 35%, #6EE7B7 55%, #10B981 80%, #34D399 100%);
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: grad-shift 6s ease-in-out infinite;
+}
+@keyframes grad-shift {
+    0% { background-position: 0% center; }
+    50% { background-position: 100% center; }
+    100% { background-position: 0% center; }
+}
+
+/* Shiny sweep text */
+.shiny {
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.38) 40%, #ffffff 50%, rgba(255, 255, 255, 0.38) 60%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shiny-sweep 3.6s ease-in-out infinite;
+}
+@keyframes shiny-sweep {
+    0% { background-position: 120% center; }
+    60%, 100% { background-position: -120% center; }
+}
+
+/* Rotating word */
+.rt { display: inline-flex; }
+.rt__word {
+    display: inline-block;
+    color: var(--ds-accent-hi);
+    animation: rt-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes rt-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Flip-in heading words */
+.ft { display: block; }
+.ft__word {
+    display: inline-block;
+    opacity: 0;
+    transform-style: preserve-3d;
+    animation: ft-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.ft__word + .ft__word { margin-left: 0.26em; }
+@keyframes ft-in {
+    from { opacity: 0; transform: rotateX(86deg) translateY(12px); }
+    to { opacity: 1; transform: rotateX(0deg) translateY(0); }
+}
+
+/* Magnetic wrapper */
+.magnetic {
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
+/* 3D tilt card with glare */
+.tilt {
+    position: relative;
+    border-radius: var(--ds-radius);
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+.tilt > * { position: relative; z-index: 1; }
+.tilt__glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 2;
+}
+
+/* Mouse spotlight */
+.spotlight {
+    position: relative;
+    overflow: hidden;
+}
+.spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(var(--spotlight-size, 340px) circle at var(--sx, 50%) var(--sy, 50%), rgba(52, 211, 153, 0.10), transparent 70%);
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+.spotlight:hover::after { opacity: 1; }
+
+/* Rotating gradient border on hover */
+.hbg {
+    position: relative;
+    padding: 1px;
+    border-radius: var(--ds-radius);
+    overflow: hidden;
+    background: var(--ds-border);
+}
+.hbg::before {
+    content: "";
+    position: absolute;
+    inset: -120%;
+    background: conic-gradient(from var(--a, 0deg), transparent 0%, rgba(16, 185, 129, 0.7) 18%, transparent 36%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    animation: hbg-spin 4.5s linear infinite;
+}
+.hbg:hover::before { opacity: 1; }
+.hbg__inner {
+    position: relative;
+    z-index: 1;
+    border-radius: calc(var(--ds-radius) - 1px);
+    height: 100%;
+}
+@keyframes hbg-spin {
+    to { --a: 360deg; transform: rotate(0deg); }
+}
+@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+/* Animated tabs */
+.atabs {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-border);
+    border-radius: 12px;
+}
+.atabs__tab {
+    height: 38px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--ds-text-2);
+    font-size: 13.5px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.25s var(--ease-out), color 0.25s ease, box-shadow 0.25s ease;
+}
+.atabs__tab:hover { color: var(--ds-text); }
+.atabs__tab.is-active {
+    background: var(--ds-accent);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+}
+
+/* Animated swap-in for panels */
+.tabswap {
+    animation: tab-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes tab-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .grad, .shiny, .rt__word, .ft__word, .hbg::before, .tabswap {
+        animation: none !important;
+    }
+    .grad, .shiny, .rt__word, .ft__word { opacity: 1; }
+    .grad { color: var(--ds-accent-hi); -webkit-text-fill-color: currentColor; }
+    .shiny { color: var(--ds-text-2); -webkit-text-fill-color: currentColor; }
+    .magnetic, .tilt { transform: none !important; }
+    .spotlight::after { display: none; }
+    .hbg::before { opacity: 0 !important; }
+}
